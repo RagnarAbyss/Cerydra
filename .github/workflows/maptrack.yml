@@ -1,0 +1,28 @@
+name: MapTrack Daily
+
+on:
+  schedule:
+    - cron: '0 17 * * *'  # 00:00 WIB
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install
+        run: pip install requests
+
+      - name: Run Script
+        env:
+          PLACE_IDS: "120942053619534"
+          NOTIF_URL: ${{ secrets.NOTIF_URL }}
+        run: python maptrack.py
